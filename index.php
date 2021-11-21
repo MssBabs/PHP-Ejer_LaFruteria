@@ -1,41 +1,38 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>index_MiniCasino_BVN</title>
+    <title>index_EjerLaFruteria_BVN</title>
 </head>
 <body>
     <header>
-        <h1> GAMEBABS MINICASINO </h1>
+        <h1>La Frutería Del Siglo XXI</h1>
     </header>
     <main>
         <?php 
-            include 'app/funciones.php';
+            include_once 'app/funciones.php';
 
-            if (!isset($_REQUEST['orden'])){
-                include_once 'app/entradaMiniCasino.php';
+            if ( !isset($_REQUEST['orden']) || $_REQUEST['orden'] == "Nuevo Cliente" ){
+                include_once 'app/nombUsuEntrada.php';
             } 
             else {
                 switch ($_REQUEST['orden']){
-                    case "Entrar":
-                        dineroIntro();
-                        include_once 'app/apuestaMiniCasino.php';
-                        break;
+                    /*1º Anotar(No break): Paso previo para inciar guardar frutas en la sesión*/
+                    case "Anotar":
+                        anotarFruta();
 
-                    case "Apostar Cantidad":
-                        apostarCantidad();
-                        include_once 'app/apuestaMiniCasino.php';
+                    case "Entrar":
+                        nombUsu();
+                        include_once 'app/realizarPedido.php';
                         break;
-    
-                    case "Abandonar MiniCasino":
-                        /*xx: Cookie guarda numVisitas/numJugadas*/
-                        include_once 'app/salidaMiniCasino.php';
+                    
+                    case "Terminar":
+                        include_once 'app/finalizarPedido.php';
                         session_destroy();
-                        break;
+                        break;  
                 }
-            }  
+            }
         ?>
     </main>
 </body>

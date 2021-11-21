@@ -1,40 +1,24 @@
-<?php
+<?php 
     session_start();
 
-    function dineroIntro(){
-        if(isset($_REQUEST['dineroDisponible'])){
-            $_SESSION["dineroDisponible"]= $_REQUEST['dineroDisponible'];   
+    function nombUsu(){
+        if(isset($_REQUEST['nombUsu'])){
+            /*htmlspecialchars()-> COMPRUEBA: TEXTO SIN INSTRUCCIONES HTML*/
+            $_SESSION["Usuario"]= htmlspecialchars($_REQUEST['nombUsu']);   
         }
     }
 
-    function apostarCantidad(){
-        
-        if(isset($_REQUEST['dineroApuesta'])){
-            $_SESSION["dineroApuesta"]= $_REQUEST['dineroApuesta']; 
-            
-            if($_SESSION["dineroApuesta"]<=$_SESSION["dineroDisponible"]){
-                
-                if(isset($_REQUEST['apuesta'])){
-                    $_SESSION["apuesta"]= $_REQUEST['apuesta']; 
-                    
-                    $numRandom= mt_rand(1, 2);
-                    $apuestaRandom = ($numRandom==1) ? "IMPAR" : "PAR";
+    function anotarFruta(){
+        if(isset($_REQUEST['opFruta']) && isset($_REQUEST['numFruta'])){
+            $fruta=$_REQUEST['opFruta'];
+            $cantidad=$_REQUEST['numFruta'];
 
-                    if($_SESSION["apuesta"] == $apuestaRandom){
-                        $_SESSION["dineroDisponible"]+=$_SESSION["dineroApuesta"];
-                        $_SESSION["resu"]= "Resultado de la apuesta:". $_SESSION["apuesta"]. "\n¡¡GANASTE!!";
-                    } else{
-                        $_SESSION["dineroDisponible"]-=$_SESSION["dineroApuesta"];
-                        $_SESSION["resu"]= "Resultado de la apuesta:". $_SESSION["apuesta"]. "\n¡¡PERDISTE!!";
-                    }
-
-                }else{
-                    $_SESSION["resu"]= "ERROR, No se ha seleccionado ningun tipo de apuesta";
-                }
-                
-            }else{
-                $_SESSION["resu"]= "ERROR, No dispone de". $_SESSION["apuesta"]. "€ disponibles";
+            if(isset($_SESSION["Frutas"] [$fruta])){
+                $cantidad+=$_SESSION["Frutas"][$fruta];
             }
+
+            /*$_SESSION["Frutas"] [Clave] = Valor;*/
+            $_SESSION["Frutas"] [$fruta] = $cantidad;   
         }
     }
 ?>
